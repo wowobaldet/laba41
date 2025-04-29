@@ -1,0 +1,123 @@
+import React, { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./Detail.css"; // Импортируем стили
+
+const Detail = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    // Состояние для хранения данных участника
+    const [itemData, setItemData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    // Ссылки на поля ввода
+    const nameRef = useRef(null);
+    const emailRef = useRef(null);
+    const birthRef = useRef(null);
+
+    // Загрузка данных о участнике
+    useEffect(() => {
+        async function loadItem() {
+            try {
+                setLoading(true);
+                const response = await axios.get(`http://localhost:5000/items/${id}`);
+                setItemData(response.data); // Сохраняем данные в состоянии
+            } catch (error) {
+                console.error("Ошибка загрузки:", error);
+                setError("Не удалось загрузить данные участника");
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadItem();
+    }, [id]);
+
+    // Функция обновления участника
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const updatedItem = {
+            name: nameRef.current.value,
+            email: emailRef.current.value,
+            birth: birthRef.current.value,
+        };
+
+        axios
+            .put(`http://localhost:5000/items/${id}`, JSON.stringify(updatedItem), {
+                headers: { "Content-Type": "application/json" },
+            })
+            .then((response) => {
+                setItemData(response.data); // Обновляем данные в состоянии
+                console.log("Обновлённый участник:", response.data);
+                navigate("/");
+            })
+            .catch((error) => {
+                console.error("Ошибка обновления:", error);
+                setError("Не удалось обновить участника");
+            });
+    };
+
+    // Отображение загрузки
+    if (loading) {
+        return <div className="loading">Загрузка...</div>;
+    }
+
+    // Отображение ошибки
+    if (error) {
+        return <div className="error-message">{error}</div>;
+    }
+
+    // Отображение формы редактирования
+    return (
+        <div className="detail-container">
+            <h1>Редактирование участника</h1>
+            <form onSubmit={handleSubmit}>
+                {/* Поле для ввода имени */}
+                <div className="form-group">
+                    <label htmlFor="name">Имя:</label>
+                    <input
+                        type="text"
+                        id="name"
+                        ref={nameRef}
+                        defaultValue={itemData ? itemData.name : ""}
+                        required
+                    />
+                </div>
+
+                {/* Поле для ввода email */}
+                <div className="form-group">
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        ref={emailRef}
+                        defaultValue={itemData ? itemData.email : ""}
+                        required
+                    />
+                </div>
+
+                {/* Поле для ввода даты рождения */}
+                <div className="form-group">
+                    <label htmlFor="birth">Дата рождения:</label>
+                    <input
+                        type="date"
+                        id="birth"
+                        ref={birthRef}
+                        defaultValue={itemData ? itemData.birth : ""}
+                        required
+                    />
+                </div>
+
+                {/* Кнопка отправки формы */}
+                <button type="submit" className="submit-button">
+                    Сохранить
+                </button>
+            </form>
+        </div>
+    );
+};
+
+export default Detail;
