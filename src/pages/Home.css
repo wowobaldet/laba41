@@ -72,10 +72,30 @@
     background-color: #d32f2f;
 }
 
-.loading {
-    text-align: center;
-    padding: 20px;
-    font-size: 18px;
+/* Стили для спиннера */
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Полная высота экрана */
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1); /* Прозрачная граница */
+    border-left-color: #36d7b7; /* Цвет спиннера */
+    border-radius: 50%; /* Круглая форма */
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite; /* Анимация вращения */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .error-container {
@@ -88,8 +108,13 @@
 }
 
 .error-message {
-    color: #f44336;
-    margin-bottom: 15px;
+    color: #f44336; /* Красный цвет текста */
+    font-size: 50px;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #f44336;
+    background-color: #ffebee;
+    border-radius: 4px;
 }
 
 .retry-button {
@@ -101,8 +126,28 @@
     cursor: pointer;
 }
 
+.error-message {
+    color: #f44336; /* Красный цвет текста */
+    font-size: 14px;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #f44336;
+    background-color: #ffebee;
+    border-radius: 4px;
+}
+
 .empty-message {
     text-align: center;
     padding: 20px;
     color: #757575;
+}
+
+.unsigned-button{
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }

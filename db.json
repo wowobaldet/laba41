@@ -1,34 +1,28 @@
 {
   "items": [
     {
-      "name": "Сашка",
+      "name": "Александр",
       "email": "123@gmail.ru",
-      "birth": "11.01.03",
+      "birth": "2025-05-16",
       "id": "dcd9"
     },
     {
-      "name": "МС КАЛАНЧА",
-      "email": "123@mail.ru",
-      "birth": "2015-06-24",
-      "id": "89ef"
-    },
-    {
-      "name": "Хайпов Свэг Завозович",
-      "email": "swag69@gmail.com",
-      "birth": "2025-04-30",
-      "id": "4201"
-    },
-    {
-      "id": "c0d7",
-      "name": "Приколист",
-      "email": "joke420@ok.ru",
-      "birth": "17.09.11"
-    },
-    {
-      "id": "5006",
       "name": "Завозович Хайпов Свэг",
       "email": "swaga69@etchkere.hype",
-      "birth": "2005-05-20"
+      "birth": "2005-05-20",
+      "id": "5006"
+    },
+    {
+      "name": "Юлиана",
+      "email": "yuli@nstu.ru",
+      "birth": "2005-08-26",
+      "id": "cd13"
+    },
+    {
+      "id": "5a7a",
+      "name": "Леонардо",
+      "email": "12356@mail.ru",
+      "birth": "2016-06-23"
     }
   ]
 }

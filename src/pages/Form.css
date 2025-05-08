@@ -8,6 +8,16 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.error-message {
+    color: #f44336; /* Красный цвет текста */
+    font-size: 50px;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #f44336;
+    background-color: #ffebee;
+    border-radius: 4px;
+}
+
 /* Заголовок формы */
 .form-container h1 {
     text-align: center;
@@ -63,10 +73,28 @@
     background-color: #1565c0;
 }
 
-/* Сообщение об ошибке (если нужно) */
-.error-message {
-    color: #f44336;
-    font-size: 14px;
-    margin-top: 10px;
-    text-align: center;
+/* Стили для спиннера */
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Полная высота экрана */
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1); /* Прозрачная граница */
+    border-left-color: #36d7b7; /* Цвет спиннера */
+    border-radius: 50%; /* Круглая форма */
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite; /* Анимация вращения */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

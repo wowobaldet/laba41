@@ -4,13 +4,13 @@ import axios from "axios";
 import "./Detail.css"; // Импортируем стили
 
 const Detail = () => {
-    const { id } = useParams();
+    const { id } = useParams(); // Получаем ID участника из URL
     const navigate = useNavigate();
 
     // Состояние для хранения данных участника
     const [itemData, setItemData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true); // Состояние загрузки
+    const [error, setError] = useState(null); // Состояние ошибки
 
     // Ссылки на поля ввода
     const nameRef = useRef(null);
@@ -23,10 +23,22 @@ const Detail = () => {
             try {
                 setLoading(true);
                 const response = await axios.get(`http://localhost:5000/items/${id}`);
-                setItemData(response.data); // Сохраняем данные в состоянии
+                setItemData(response.data); // Преобразование JSON в объект JavaScript
             } catch (error) {
-                console.error("Ошибка загрузки:", error);
-                setError("Не удалось загрузить данные участника");
+                if (error.response) {
+                    const status = error.response.status;
+                    if (status === 404) {
+                        setError("404. Участник не найден.");
+                    } else if (status === 500) {
+                        setError("500. Внутренняя ошибка сервера. Попробуйте позже.");
+                    } else {
+                        setError(`Ошибка ${status}. Попробуйте позже.`);
+                    }
+                } else if (error.request) {
+                    setError("Сервер не отвечает. Проверьте подключение к интернету.");
+                } else {
+                    setError("Произошла ошибка. Попробуйте снова.");
+                }
             } finally {
                 setLoading(false);
             }
@@ -55,14 +67,32 @@ const Detail = () => {
                 navigate("/");
             })
             .catch((error) => {
-                console.error("Ошибка обновления:", error);
-                setError("Не удалось обновить участника");
+                if (error.response) {
+                    const status = error.response.status;
+                    if (status === 400) {
+                        setError("Ошибка 400. Некорректные данные. Проверьте введенные значения.");
+                    } else if (status === 404) {
+                        setError("Ошибка 404. Участник не найден.");
+                    } else if (status === 500) {
+                        setError("Ошибка 500. Внутренняя ошибка сервера. Попробуйте позже.");
+                    } else {
+                        setError(`Ошибка ${status}. Попробуйте позже.`);
+                    }
+                } else if (error.request) {
+                    setError("Сервер не отвечает. Проверьте подключение к интернету.");
+                } else {
+                    setError("Произошла ошибка. Попробуйте снова.");
+                }
             });
     };
 
-    // Отображение загрузки
+    // Отображение спиннера при загрузке
     if (loading) {
-        return <div className="loading">Загрузка...</div>;
+        return (
+            <div className="spinner-container">
+                <div className="spinner"></div> {/* Спиннер */}
+            </div>
+        );
     }
 
     // Отображение ошибки

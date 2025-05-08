@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Form.css"; // Импортируем стили
@@ -8,9 +8,12 @@ const Form = () => {
     const emailRef = useRef(null); // Ссылка на поле ввода email
     const birthRef = useRef(null); // Ссылка на поле ввода даты рождения
     const navigate = useNavigate();
+    const [error, setError] = useState(null); // Состояние для ошибок
+    const [loading, setLoading] = useState(false); // Состояние загрузки
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true); // Начинаем загрузку
 
         // Создаем объект с данными из формы
         const newItemData = {
@@ -28,8 +31,38 @@ const Form = () => {
                 console.log("Добавленный участник:", response.data);
                 navigate("/"); // Переход на главную страницу после успешного добавления
             })
-            .catch((error) => console.error("Ошибка создания:", error));
+            .catch((error) => {
+                if (error.response) {
+                    const status = error.response.status;
+                    if (status === 400) {
+                        setError("Ошибка 400. Некорректные данные. Проверьте введенные значения.");
+                    } else if (status === 500) {
+                        setError("Ошибка 500. Внутренняя ошибка сервера. Попробуйте позже.");
+                    } else {
+                        setError(`Ошибка ${status}. Попробуйте позже.`);
+                    }
+                } else if (error.request) {
+                    setError("Сервер не отвечает. Проверьте подключение к интернету.");
+                } else {
+                    setError("Произошла ошибка. Попробуйте снова.");
+                }
+            })
+            .finally(() => {
+                setLoading(false); // Загрузка завершена
+            });
     };
+
+    if (loading) {
+        return (
+            <div className="spinner-container">
+                <div className="spinner"></div> {/* Спиннер */}
+            </div>
+        );
+    }
+
+    if (error) {
+        return <div className="error-message">{error}</div>;
+    }
 
     return (
         <div className="form-container">
@@ -54,9 +87,12 @@ const Form = () => {
                 </div>
 
                 {/* Кнопка отправки формы */}
-                <button type="submit" className="submit-button">
-                    Добавить
+                <button type="submit" className="submit-button" disabled={loading}>
+                    {loading ? "Добавление..." : "Добавить"}
                 </button>
+
+                {/* Отображение ошибки */}
+                {error && <div className="error-message">{error}</div>}
             </form>
         </div>
     );
