@@ -2,7 +2,7 @@
   "items": [
     {
       "name": "Александр",
-      "email": "123@gmail.ru",
+      "email": "123@gmail.com",
       "birth": "2025-05-16",
       "id": "dcd9"
     },
@@ -13,16 +13,10 @@
       "id": "5006"
     },
     {
-      "name": "Юлиана",
-      "email": "yuli@nstu.ru",
-      "birth": "2005-08-26",
-      "id": "cd13"
-    },
-    {
-      "id": "5a7a",
-      "name": "Леонардо",
-      "email": "12356@mail.ru",
-      "birth": "2016-06-23"
+      "id": "54b4",
+      "name": "Полевой Владислав Николаевич",
+      "email": "88originalll@gmail.com",
+      "birth": "2017-06-14"
     }
   ]
 }

@@ -23,7 +23,7 @@ const Home = () => {
                 if (status === 404) {
                     setError("Список участников не найден.");
                 } else if (status === 500) {
-                    setError("Внутренняя ошибка сервера. Попробуйте позже.");
+                    setError("500. Внутренняя ошибка сервера. Попробуйте позже.");
                 } else {
                     setError(`Ошибка ${status}. Попробуйте позже.`);
                 }
@@ -49,7 +49,7 @@ const Home = () => {
                 if (error.response) {
                     const status = error.response.status;
                     if (status === 404) {
-                        alert("Ошибка 404. Участник не найден.");
+                        alert("Ошибка 404. Страница не найдена.");
                     } else if (status === 500) {
                         alert("Ошибка 500. Внутренняя ошибка сервера. Попробуйте позже.");
                     } else {
@@ -71,7 +71,6 @@ const Home = () => {
             </div>
         );
     }
-
     if (error) {
         return <div className="error-message">{error}</div>;
     }
@@ -97,7 +96,7 @@ const Home = () => {
                     </li>
                 ))}
             </ul>
-            <Link to="/login" className="unsigned-button">
+            <Link to="/login" className="unsigned-button" onClick={() => {localStorage.setItem("isLoggedIn", "false")}}>
                 Выйти
             </Link>
         </div>

@@ -28,7 +28,7 @@ const Detail = () => {
                 if (error.response) {
                     const status = error.response.status;
                     if (status === 404) {
-                        setError("404. Участник не найден.");
+                        setError("404. Страница не найдена.");
                     } else if (status === 500) {
                         setError("500. Внутренняя ошибка сервера. Попробуйте позже.");
                     } else {
